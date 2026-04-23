@@ -90,7 +90,7 @@ fun RegisterScreen(
             modifier = Modifier.padding(bottom = 32.dp)
         )
 
-        // Field Nama
+
         OutlinedTextField(
             value = name,
             onValueChange = { name = it },
@@ -102,7 +102,7 @@ fun RegisterScreen(
 
         Spacer(modifier = Modifier.height(16.dp))
 
-        // Field Email
+
         OutlinedTextField(
             value = email,
             onValueChange = { email = it },
@@ -115,7 +115,6 @@ fun RegisterScreen(
 
         Spacer(modifier = Modifier.height(16.dp))
 
-        // Field Password
         OutlinedTextField(
             value = password,
             onValueChange = { password = it },
@@ -135,7 +134,7 @@ fun RegisterScreen(
 
         Spacer(modifier = Modifier.height(32.dp))
 
-        // Tombol Daftar
+
         Button(
             onClick = {
                 if (name.isNotEmpty() && email.isNotEmpty() && password.isNotEmpty()) {
@@ -155,7 +154,7 @@ fun RegisterScreen(
 
         Spacer(modifier = Modifier.height(16.dp))
 
-        // Link Kembali ke Login
+
         TextButton(onClick = onLoginClick) {
             Text("Sudah punya akun? Login di sini")
         }

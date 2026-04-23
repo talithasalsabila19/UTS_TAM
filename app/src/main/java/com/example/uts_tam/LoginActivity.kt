@@ -2,6 +2,7 @@ package com.example.uts_tam
 
 import android.content.Intent
 import android.os.Bundle
+import android.widget.Toast
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
@@ -40,6 +41,7 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.input.PasswordVisualTransformation
@@ -48,6 +50,7 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import com.example.uts_tam.ui.theme.HomeActivity
 import com.example.uts_tam.ui.theme.RegisterActivity
 import com.example.uts_tam.ui.theme.ui.theme.UTS_TAMTheme
 
@@ -60,6 +63,11 @@ class LoginActivity : ComponentActivity() {
                 Scaffold(modifier = Modifier.fillMaxSize()) { innerPadding ->
                     LoginScreen(
                         modifier = Modifier.padding(innerPadding),
+                        onLoginSuccess = {
+                            val intent = Intent(this, HomeActivity::class.java)
+                            startActivity(intent)
+                            finish()
+                        },
                         onRegisterClick = {
                             val intent = Intent(this, RegisterActivity::class.java)
                             startActivity(intent)
@@ -74,11 +82,13 @@ class LoginActivity : ComponentActivity() {
 @Composable
 fun LoginScreen(
     modifier: Modifier = Modifier,
+    onLoginSuccess: () -> Unit = {},
     onRegisterClick: () -> Unit = {}
 ) {
     var email by remember { mutableStateOf("") }
     var password by remember { mutableStateOf("") }
     var passwordVisible by remember { mutableStateOf(false) }
+    val context = LocalContext.current
 
     Column(
         modifier = modifier
@@ -119,7 +129,6 @@ fun LoginScreen(
 
         Spacer(modifier = Modifier.height(40.dp))
 
-        // Email Field
         OutlinedTextField(
             value = email,
             onValueChange = { email = it },
@@ -134,7 +143,7 @@ fun LoginScreen(
 
         Spacer(modifier = Modifier.height(16.dp))
 
-        // Password Field
+
         OutlinedTextField(
             value = password,
             onValueChange = { password = it },
@@ -164,9 +173,15 @@ fun LoginScreen(
 
         Spacer(modifier = Modifier.height(24.dp))
 
-        // Login Button
         Button(
-            onClick = { /* Login logic */ },
+            onClick = { 
+                if (email.isNotEmpty() && password.isNotEmpty()) {
+                    Toast.makeText(context, "Login Berhasil!", Toast.LENGTH_SHORT).show()
+                    onLoginSuccess()
+                } else {
+                    Toast.makeText(context, "Mohon isi email dan password", Toast.LENGTH_SHORT).show()
+                }
+            },
             modifier = Modifier
                 .fillMaxWidth()
                 .height(56.dp),
@@ -178,7 +193,7 @@ fun LoginScreen(
 
         Spacer(modifier = Modifier.height(24.dp))
 
-        // Register Link
+
         Row(
             verticalAlignment = Alignment.CenterVertically
         ) {
